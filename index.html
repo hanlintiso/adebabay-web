@@ -4,41 +4,459 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adebabay — Marketplace for Diaspora Communities</title>
+  <meta name="description" content="Adebabay connects East African diaspora communities across the US — buy, sell, find jobs, rentals, and more in English and Amharic." />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9fafb; color: #111827; }
-    header { background: #1A5C3A; padding: 24px 20px; text-align: center; }
-    .logo { color: #fff; font-size: 32px; font-weight: 800; }
-    .tagline { color: rgba(255,255,255,0.8); font-size: 15px; margin-top: 8px; }
-    main { max-width: 600px; margin: 60px auto; padding: 0 20px; text-align: center; }
-    h1 { font-size: 28px; font-weight: 800; margin-bottom: 16px; }
-    p { font-size: 16px; line-height: 26px; color: #4B5563; margin-bottom: 32px; }
-    .badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .badge { background: #1A5C3A; color: #fff; padding: 12px 28px; border-radius: 25px; font-weight: 700; font-size: 15px; text-decoration: none; }
-    footer { text-align: center; padding: 40px 20px; color: #9CA3AF; font-size: 13px; }
-    footer a { color: #1A5C3A; text-decoration: none; margin: 0 8px; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #1A5C3A;
+      --green-light: #22763F;
+      --green-pale: #F0F7F3;
+      --text: #111827;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --white: #FFFFFF;
+      --bg: #F9FAFB;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: var(--white);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--green);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { color: var(--white); font-size: 22px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: rgba(255,255,255,0.8); font-size: 14px; text-decoration: none; font-weight: 500; }
+    .nav-links a:hover { color: var(--white); }
+    .lang-toggle {
+      display: flex;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-toggle button.active {
+      background: var(--white);
+      color: var(--green);
+      border-radius: 20px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--green) 0%, #0F3D26 100%);
+      padding: 80px 24px 100px;
+      text-align: center;
+    }
+    .hero-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      color: var(--white);
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.75);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+    .store-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+    .store-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .store-btn-icon { font-size: 22px; }
+    .store-btn-sub { font-size: 11px; font-weight: 400; color: var(--text-muted); display: block; text-align: left; }
+    .store-btn-label { display: block; text-align: left; }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 72px 24px; }
+    .section-inner { max-width: 1060px; margin: 0 auto; }
+    .section-tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 52px;
+    }
+
+    /* ── FEATURES ── */
+    .features { background: var(--bg); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--green-pale);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── CATEGORIES ── */
+    .categories { background: var(--white); }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green-pale);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green);
+    }
+    .cat-pill span:first-child { font-size: 20px; }
+
+    /* ── BILINGUAL BANNER ── */
+    .bilingual {
+      background: linear-gradient(135deg, var(--green) 0%, #0F3D26 100%);
+      text-align: center;
+    }
+    .bilingual .section-tag { color: rgba(255,255,255,0.6); }
+    .bilingual .section-title { color: var(--white); max-width: 600px; margin-left: auto; margin-right: auto; }
+    .bilingual .section-sub { color: rgba(255,255,255,0.7); margin-left: auto; margin-right: auto; max-width: 480px; margin-bottom: 0; }
+    .lang-pills {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .lang-pill {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* ── PRICING ── */
+    .pricing { background: var(--bg); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 860px;
+    }
+    .pricing-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      position: relative;
+    }
+    .pricing-card.featured { border-color: var(--green); border-width: 2px; }
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .pricing-name { font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .pricing-price { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+    .pricing-price span { font-size: 15px; font-weight: 500; color: var(--text-muted); }
+    .pricing-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .pricing-features li { font-size: 14px; display: flex; align-items: flex-start; gap: 8px; }
+    .pricing-features li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-logo { color: var(--white); font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .footer-tagline { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 24px; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-links a { color: rgba(255,255,255,0.75); font-size: 13px; text-decoration: none; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { color: rgba(255,255,255,0.4); font-size: 12px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 16px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 16px 80px; }
+      section { padding: 52px 16px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">Adebabay</div>
-    <div class="tagline">Marketplace for diaspora communities</div>
-  </header>
-  <main>
-    <h1>Find homes, cars, jobs, and more</h1>
-    <p>Adebabay connects East African diaspora communities across the United States — a place to buy, sell, and stay informed in both English and Amharic.</p>
-    <div class="badges">
-      <a class="badge" href="#">Download on the App Store</a>
-      <a class="badge" href="#">Get it on Google Play</a>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">Adebabay</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#features" data-en="Features" data-am="ባህሪያት">Features</a>
+        <a href="#pricing" data-en="Pricing" data-am="ዋጋ">Pricing</a>
+        <a href="mailto:adebabayapp@gmail.com" data-en="Contact" data-am="ያግኙን">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="active" onclick="setLang('en')">EN</button>
+        <button onclick="setLang('am')">አማ</button>
+      </div>
     </div>
-  </main>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label" data-en="East African Diaspora Marketplace" data-am="የምስራቅ አፍሪካ ዲያስፖራ ገበያ">East African Diaspora Marketplace</div>
+    <h1 data-en="Buy, sell, and connect with your community" data-am="ይሸጡ፣ ይግዙ፣ ከማህበረሰብዎ ጋር ይገናኙ።">Buy, sell, and connect with your community</h1>
+    <p data-en="Adebabay connects Ethiopian, Somali, Eritrean and East African communities across the United States — in English and Amharic." data-am="አደባባይ በዩናይትድ ስቴትስ ውስጥ ያሉ ኢትዮጵያውያን፣ ሶማሊዎች፣ ኤርትራውያን እና ሌሎች የምስራቅ አፍሪካ ማህበረሰቦችን ያገናኛል።">Adebabay connects Ethiopian, Somali, Eritrean and East African communities across the United States — in English and Amharic.</p>
+    <div class="store-buttons">
+      <a class="store-btn" href="#">
+        <span class="store-btn-icon">🍎</span>
+        <span>
+          <span class="store-btn-sub" data-en="Download on the" data-am="ያውርዱ">Download on the</span>
+          <span class="store-btn-label" data-en="App Store" data-am="App Store">App Store</span>
+        </span>
+      </a>
+      <a class="store-btn" href="#">
+        <span class="store-btn-icon">▶</span>
+        <span>
+          <span class="store-btn-sub" data-en="Get it on" data-am="ያውርዱ">Get it on</span>
+          <span class="store-btn-label" data-en="Google Play" data-am="Google Play">Google Play</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-inner">
+      <div class="section-tag" data-en="What you get" data-am="የሚያገኙት">What you get</div>
+      <h2 class="section-title" data-en="Everything your community needs" data-am="ማህበረሰብዎ የሚፈልገው ሁሉ">Everything your community needs</h2>
+      <p class="section-sub" data-en="From finding a rental to hiring a babysitter — Adebabay is built for how diaspora communities actually buy, sell, and connect." data-am="ቤት ከመከራየት እስከ ሞግዚት መቅጠር — አደባባይ ለዲያስፖራ ማህበረሰቦች በልዩ ሁኔታ ተዘጋጅቷል።">From finding a rental to hiring a babysitter — Adebabay is built for how diaspora communities actually buy, sell, and connect.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛍️</div>
+          <h3 data-en="Buy & Sell Locally" data-am="በአካባቢዎ ይሸጡ እና ይግዙ">Buy & Sell Locally</h3>
+          <p data-en="Browse listings across 8 categories. Filter by city, price, and distance to find exactly what you need." data-am="በ8 ምድቦች ውስጥ ማስታወቂያዎችን ይፈልጉ። በከተማ፣ ዋጋ እና ርቀት ያጣሩ።">Browse listings across 8 categories. Filter by city, price, and distance to find exactly what you need.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3 data-en="In-App Messaging" data-am="በመተግበሪያ ውስጥ መልዕክት">In-App Messaging</h3>
+          <p data-en="Message buyers and sellers directly without sharing your phone number. Real-time chat built in." data-am="ስልክ ቁጥርዎን ሳይሰጡ ቀጥታ ከሻጮች እና ከገዢዎች ጋር ይነጋገሩ።">Message buyers and sellers directly without sharing your phone number. Real-time chat built in.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📰</div>
+          <h3 data-en="Community News" data-am="የማህበረሰብ ዜና">Community News</h3>
+          <p data-en="Stay informed with news curated for East African diaspora communities, updated daily." data-am="ለምስራቅ አፍሪካ ዲያስፖራ ማህበረሰቦች የተዘጋጀ ዜና። በየቀኑ ይዘምናል።">Stay informed with news curated for East African diaspora communities, updated daily.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <h3 data-en="Near Me Filter" data-am="አቅራቢያዬ ማጣሪያ">Near Me Filter</h3>
+          <p data-en="Find listings close to you across major US cities — DC, Maryland, Virginia, Minnesota, California, and more." data-am="አቅራቢያዎ ያሉ ማስታወቂያዎችን ያግኙ — ዋሽንግተን ዲሲ፣ ሜሪላንድ፣ ቨርጂኒያ፣ ሚኔሶታ፣ ካሊፎርኒያ እና ሌሎችም።">Find listings close to you across major US cities — DC, Maryland, Virginia, Minnesota, California, and more.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories">
+    <div class="section-inner">
+      <div class="section-tag" data-en="8 Categories" data-am="8 ምድቦች">8 Categories</div>
+      <h2 class="section-title" data-en="Find what you're looking for" data-am="የሚፈልጉትን ያግኙ">Find what you're looking for</h2>
+      <p class="section-sub" data-en="Every category the community needs, all in one place." data-am="ማህበረሰቡ የሚፈልጋቸው ሁሉም ምድቦች በአንድ ቦታ።">Every category the community needs, all in one place.</p>
+      <div class="cat-grid">
+        <div class="cat-pill"><span>🏠</span><span data-en="Rentals" data-am="ኪራይ">Rentals</span></div>
+        <div class="cat-pill"><span>👶</span><span data-en="Babysitters" data-am="ሞግዚት">Babysitters</span></div>
+        <div class="cat-pill"><span>🚗</span><span data-en="Cars for Sale" data-am="መኪና ሽያጭ">Cars for Sale</span></div>
+        <div class="cat-pill"><span>🔑</span><span data-en="Car Rental" data-am="መኪና ኪራይ">Car Rental</span></div>
+        <div class="cat-pill"><span>🔧</span><span data-en="Auto Services" data-am="የመኪና አገልግሎት">Auto Services</span></div>
+        <div class="cat-pill"><span>💼</span><span data-en="Jobs" data-am="ስራ">Jobs</span></div>
+        <div class="cat-pill"><span>🏪</span><span data-en="Businesses" data-am="ንግድ">Businesses</span></div>
+        <div class="cat-pill"><span>📱</span><span data-en="Electronics" data-am="ኤሌክትሮኒክስ">Electronics</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BILINGUAL BANNER -->
+  <section class="bilingual">
+    <div class="section-inner">
+      <div class="section-tag" data-en="Fully Bilingual" data-am="ሙሉ በሙሉ ሁለት ቋንቋ">Fully Bilingual</div>
+      <h2 class="section-title" data-en="Switch between English and Amharic anytime" data-am="በማንኛውም ጊዜ ከእንግሊዝኛ ወደ አማርኛ ይቀይሩ">Switch between English and Amharic anytime</h2>
+      <p class="section-sub" data-en="Every part of Adebabay is fully translated. Use the app in the language that feels most natural to you." data-am="የአደባባይ እያንዳንዱ ክፍል ሙሉ በሙሉ ተተርጉሟል። መተግበሪያውን በሚመቸዎት ቋንቋ ይጠቀሙ።">Every part of Adebabay is fully translated. Use the app in the language that feels most natural to you.</p>
+      <div class="lang-pills">
+        <div class="lang-pill">English</div>
+        <div class="lang-pill">አማርኛ (Amharic)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-inner">
+      <div class="section-tag" data-en="Pricing" data-am="ዋጋ">Pricing</div>
+      <h2 class="section-title" data-en="Simple, honest pricing" data-am="ቀላል እና ግልጽ ዋጋ">Simple, honest pricing</h2>
+      <p class="section-sub" data-en="Start for free. Pay only when you need more." data-am="በነጻ ይጀምሩ። ተጨማሪ ሲፈልጉ ብቻ ይክፈሉ።">Start for free. Pay only when you need more.</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name" data-en="Free" data-am="ነጻ">Free</div>
+          <div class="pricing-price">$0</div>
+          <div class="pricing-desc" data-en="10 free listings your first year, then 1 free listing per year." data-am="በመጀመሪያው ዓመት 10 ነጻ ማስታወቂያዎች፣ ከዚያ በዓመት 1 ነጻ ማስታወቂያ።">10 free listings your first year, then 1 free listing per year.</div>
+          <ul class="pricing-features">
+            <li data-en="10 listings (year 1 launch users)" data-am="10 ማስታወቂያዎች (የመጀመሪያ ዓመት)">10 listings (year 1 launch users)</li>
+            <li data-en="In-app messaging" data-am="በመተግበሪያ ውስጥ መልዕክት">In-app messaging</li>
+            <li data-en="Community news" data-am="የማህበረሰብ ዜና">Community news</li>
+            <li data-en="Near Me filter" data-am="አቅራቢያዬ ማጣሪያ">Near Me filter</li>
+          </ul>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-name" data-en="Pay per Post" data-am="በማስታወቂያ ክፈሉ">Pay per Post</div>
+          <div class="pricing-price">$10 <span data-en="/ listing" data-am="/ ማስታወቂያ">/ listing</span></div>
+          <div class="pricing-desc" data-en="Post beyond your free allowance whenever you need." data-am="ነጻ ኮታዎን ሲጨርሱ፣ ሲፈልጉ ማስታወቂያ ያስቀምጡ።">Post beyond your free allowance whenever you need.</div>
+          <ul class="pricing-features">
+            <li data-en="Single listing post" data-am="አንድ ማስታወቂያ">Single listing post</li>
+            <li data-en="Active for 45 days" data-am="ለ45 ቀናት ይቆያል">Active for 45 days</li>
+            <li data-en="In-app messaging" data-am="በመተግበሪያ ውስጥ መልዕክት">In-app messaging</li>
+            <li data-en="Add Boost for $5" data-am="ቡስት ለ$5 ይጨምሩ">Add Boost for $5</li>
+          </ul>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge" data-en="Most Popular" data-am="በጣም ተወዳጅ">Most Popular</div>
+          <div class="pricing-name" data-en="Business" data-am="ቢዝነስ">Business</div>
+          <div class="pricing-price">$15 <span data-en="/ month" data-am="/ ወር">/ month</span></div>
+          <div class="pricing-desc" data-en="For professionals and businesses who post regularly." data-am="ለሙያተኞች እና ብዙ ጊዜ ለሚያስቀምጡ ንግዶች።">For professionals and businesses who post regularly.</div>
+          <ul class="pricing-features">
+            <li data-en="Unlimited listings" data-am="ያልተገደቡ ማስታወቂያዎች">Unlimited listings</li>
+            <li data-en="Verified badge on all listings" data-am="በሁሉም ማስታወቂያዎች ላይ የተረጋገጠ ምልክት">Verified badge on all listings</li>
+            <li data-en="2 free boosts per month" data-am="በወር 2 ነጻ ቡስቶች">2 free boosts per month</li>
+            <li data-en="Priority support" data-am="ቅድሚያ ድጋፍ">Priority support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    <p>© 2026 Adebabay. All rights reserved.</p>
-    <p style="margin-top:8px;">
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="mailto:adebabayapp@gmail.com">Contact</a>
-    </p>
+    <div class="footer-logo">Adebabay</div>
+    <div class="footer-tagline" data-en="Marketplace for diaspora communities · ማስታወቂያ ያስቀምጡ" data-am="የዲያስፖራ ማህበረሰቦች ገበያ · ማስታወቂያ ያስቀምጡ">Marketplace for diaspora communities · ማስታወቂያ ያስቀምጡ</div>
+    <div class="footer-links">
+      <a href="privacy.html" data-en="Privacy Policy" data-am="የግላዊነት ፖሊሲ">Privacy Policy</a>
+      <a href="terms.html" data-en="Terms of Service" data-am="የአገልግሎት ውሎች">Terms of Service</a>
+      <a href="mailto:adebabayapp@gmail.com" data-en="Contact" data-am="ያግኙን">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Adebabay. All rights reserved.</div>
   </footer>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+      document.querySelectorAll('.lang-toggle button').forEach((btn, i) => {
+        btn.classList.toggle('active', (lang === 'en' && i === 0) || (lang === 'am' && i === 1));
+      });
+      document.documentElement.lang = lang === 'am' ? 'am' : 'en';
+      localStorage.setItem('adebabay-lang', lang);
+    }
+
+    // Restore saved language preference
+    const saved = localStorage.getItem('adebabay-lang');
+    if (saved === 'am') setLang('am');
+  </script>
+
 </body>
 </html>
