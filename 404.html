@@ -6,6 +6,21 @@
   <title>Get Adebabay</title>
   <meta name="description" content="Download Adebabay to read this article and browse the marketplace for East African diaspora communities." />
   <meta name="robots" content="noindex" />
+  <script>
+    // Auto-redirect straight to the right store on mobile so visitors don't
+    // have to pick a button themselves -- desktop visitors (or anyone whose
+    // UA doesn't match) just see the page below with both buttons instead.
+    (function () {
+      var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+      var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      var isAndroid = /android/i.test(ua);
+      if (isIOS) {
+        window.location.replace('https://apps.apple.com/app/id6781082852');
+      } else if (isAndroid) {
+        window.location.replace('https://play.google.com/store/apps/details?id=com.adebabay.app');
+      }
+    })();
+  </script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
