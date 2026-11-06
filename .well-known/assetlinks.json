@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.adebabay.app",
+      "sha256_cert_fingerprints": [
+        "26:30:CF:DA:FD:67:11:45:B5:3B:41:AE:02:EF:AE:FE:0B:D3:03:03:5D:88:37:9F:BA:25:7D:30:CA:D1:F3:70"
+      ]
+    }
+  }
+]
