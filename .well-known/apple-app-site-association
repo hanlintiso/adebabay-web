@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "G4H4UY8KQF.com.adebabay.app",
-        "paths": ["/article/*"]
+        "paths": ["/article/*", "/listing/*"]
       }
     ]
   }
