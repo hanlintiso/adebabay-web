@@ -1,32 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--
-    FUTURE ENHANCEMENT (blocked on Supabase paid tier -- revisit once upgraded):
-
-    Rich link previews (Zillow-style: shared listing/article links show that
-    specific item's photo + title in iMessage/WhatsApp/etc. instead of this
-    generic page). This requires per-item Open Graph tags (og:title, og:image,
-    og:description) rendered server-side -- link crawlers don't run JS, so a
-    static page like this one can only ever show one generic preview for every
-    shared link, never the actual item's.
-
-    Plan, once on a Supabase plan with the Custom Domains add-on:
-    1. New Supabase Edge Function that takes a listing/article id, fetches its
-       title/image/description from the DB, and returns HTML with real OG tags
-       for crawlers -- and the same "get the app" fallback + auto-redirect
-       (see script below) for human visitors without the app.
-    2. Point a subdomain (e.g. link.adebabay.app) at that function via a CNAME
-       added in Namecheap -- this domain stays on GitHub Pages untouched.
-    3. Serve a second .well-known/apple-app-site-association + assetlinks.json
-       pair from that subdomain (Universal Links/App Links are scoped per
-       domain, so the new subdomain needs its own).
-    4. Add "applinks:link.adebabay.app" to the app's associatedDomains (iOS)
-       and a matching Android intentFilter host entry, alongside the existing
-       adebabay.app ones.
-    5. Switch the app's share messages (app/article/[id].tsx, app/listing/[id].tsx)
-       to use the new subdomain's URL instead of adebabay.app.
-  -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get Adebabay</title>
